@@ -21,6 +21,7 @@
     "@tabler/icons-react": "^2.45.0",
     "axios": "^1.6.5",
     "clsx": "^2.1.0",
+    "dayjs": "^1.11.10",
     "jwt-decode": "^4.0.0",
     "localforage": "^1.10.0",
     "lodash": "^4.17.21",

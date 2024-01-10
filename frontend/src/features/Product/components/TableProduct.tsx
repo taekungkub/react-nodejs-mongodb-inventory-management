@@ -1,42 +1,42 @@
-import { ActionIcon, Button, Flex, Group, Modal, Popover, Text, Title } from "@mantine/core"
-import { DataTable, DataTableSortStatus } from "mantine-datatable"
-import { useEffect, useState } from "react"
-import sortBy from "lodash/sortBy"
-import { IconChevronUp, IconEdit, IconEye, IconSelector, IconTrash } from "@tabler/icons-react"
-import { ProductTy } from "../../../types/product.type"
+import { ActionIcon, Button, Flex, Group, Popover, Text, Title } from "@mantine/core";
+import { DataTable, DataTableSortStatus } from "mantine-datatable";
+import { useEffect, useState } from "react";
+import sortBy from "lodash/sortBy";
+import { IconChevronUp, IconEdit, IconEye, IconSelector, IconTrash } from "@tabler/icons-react";
+import { ProductTy } from "../../../types/product.type";
+import dayjs from "dayjs";
 
 interface Props {
-  data: Array<ProductTy>
-  open: () => void
-  onEdit: (data: any) => void
-  onAdd: () => void
-  onDelete: (data: any) => void
+  data: Array<ProductTy>;
+  onEdit: (data: ProductTy) => void;
+  onAdd: () => void;
+  onDelete: (data: ProductTy) => void;
 }
 
-const PAGE_SIZES = [10, 15, 20]
+const PAGE_SIZES = [10, 15, 20];
 
-export default function TableProduct({ data, onEdit, open, onAdd, onDelete }: Props) {
-  const [page, setPage] = useState(1)
-  const [pageSize, setPageSize] = useState(PAGE_SIZES[1])
-
-  useEffect(() => {
-    setPage(1)
-  }, [pageSize])
-
-  const [sortStatus, setSortStatus] = useState<DataTableSortStatus<ProductTy>>({ columnAccessor: "#", direction: "asc" })
-  const [records, setRecords] = useState(sortBy(data.slice(0, pageSize), "_id"))
+export default function TableProduct({ data, onEdit, onAdd, onDelete }: Props) {
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(PAGE_SIZES[1]);
 
   useEffect(() => {
-    const myData = sortBy(data, sortStatus.columnAccessor)
+    setPage(1);
+  }, [pageSize]);
 
-    setRecords(sortStatus.direction === "desc" ? myData.reverse() : myData)
-  }, [sortStatus, data])
+  const [sortStatus, setSortStatus] = useState<DataTableSortStatus<ProductTy>>({ columnAccessor: "#", direction: "asc" });
+  const [records, setRecords] = useState(sortBy(data.slice(0, pageSize), "_id"));
 
   useEffect(() => {
-    const from = (page - 1) * pageSize
-    const to = from + pageSize
-    setRecords(data.slice(from, to))
-  }, [page, pageSize])
+    const myData = sortBy(data, sortStatus.columnAccessor);
+
+    setRecords(sortStatus.direction === "desc" ? myData.reverse() : myData);
+  }, [sortStatus, data]);
+
+  useEffect(() => {
+    const from = (page - 1) * pageSize;
+    const to = from + pageSize;
+    setRecords(data.slice(from, to));
+  }, [page, pageSize]);
 
   return (
     <>
@@ -62,7 +62,12 @@ export default function TableProduct({ data, onEdit, open, onAdd, onDelete }: Pr
           { title: "Title", accessor: "title", sortable: true },
           { title: "Description", accessor: "description", width: 200 },
           { title: "Stock", accessor: "stock", sortable: true },
-          { title: "createdAt", accessor: "createdAt", sortable: true, render: ({ createdAt }: ProductTy) => <>{new Date(createdAt).toUTCString()}</> },
+          {
+            title: "createdAt",
+            accessor: "createdAt",
+            sortable: true,
+            render: ({ createdAt }: ProductTy) => <>{dayjs(new Date(createdAt).toUTCString()).format("ddd, MMM D, YYYY h:mm A")}</>,
+          },
           {
             title: "Action",
             accessor: "actions",
@@ -115,5 +120,5 @@ export default function TableProduct({ data, onEdit, open, onAdd, onDelete }: Pr
         onRecordsPerPageChange={setPageSize}
       />
     </>
-  )
+  );
 }

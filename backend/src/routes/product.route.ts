@@ -6,7 +6,7 @@ import { ProductSchema } from "../validation/product.schema";
 
 const router = Router();
 
-router.get("/products", productController.getProducts);
+router.get("/products", onlyAuth, productController.getProducts);
 router.get("/products/:id", onlyAuth, productController.getProduct);
 router.post("/products", onlyAuth, validateRequestSchema(ProductSchema), productController.createProduct);
 router.put("/products/:id", onlyAuth, validateRequestSchema(ProductSchema), productController.updateProduct);
