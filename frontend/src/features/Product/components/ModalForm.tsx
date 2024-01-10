@@ -2,7 +2,7 @@ import { TextInput, Button, Stack, Modal } from "@mantine/core"
 import { useForm, zodResolver } from "@mantine/form"
 import { ProductSchema } from "../../../schemas/product.schema"
 import { ProductTy } from "../../../types/product.type"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import BackendServices from "../../../services/BackendServices"
 import useToast from "../../../hooks/use-toast"
 
@@ -26,6 +26,8 @@ export default function ModalForm({ opened, close, inititialForm, type, onSucces
     validate: zodResolver(ProductSchema),
   })
 
+  const [isLoading, setIsLoading] = useState(false)
+
   useEffect(() => {
     if (type === "ADD") {
       form.reset()
@@ -38,6 +40,7 @@ export default function ModalForm({ opened, close, inititialForm, type, onSucces
 
   async function handleSubmit() {
     try {
+      setIsLoading(true)
       if (type === "ADD") {
         await BackendServices.createProduct(form.values.title, form.values.description, Number(form.values.stock))
         toast.success({ msg: "Create product successfully" })
@@ -46,12 +49,13 @@ export default function ModalForm({ opened, close, inititialForm, type, onSucces
       } else if (type === "EDIT") {
         console.log(inititialForm)
         const res = await BackendServices.editProduct(inititialForm?._id, form.values.title, form.values.description, Number(form.values.stock))
-        console.log(res)
         toast.success({ msg: "Update product successfully" })
         onSuccess()
       }
     } catch (error: any) {
       toast.error({ msg: error.description ? error.description : "Something went wrong" })
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -64,8 +68,8 @@ export default function ModalForm({ opened, close, inititialForm, type, onSucces
             <TextInput label="Description" {...form.getInputProps("description")} radius="md" />
             <TextInput type="number" required label="Stock" {...form.getInputProps("stock")} radius="md" />
           </Stack>
-          <Button type="submit" fullWidth mt={"md"}>
-            Add
+          <Button type="submit" fullWidth mt={"md"} loading={isLoading}>
+            {type === "ADD" ? "Add" : "Edit"}
           </Button>
         </form>
       </Modal>
