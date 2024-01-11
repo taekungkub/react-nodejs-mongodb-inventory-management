@@ -45,6 +45,7 @@ export default function TableProduct({ data, onEdit, onAdd, onDelete }: Props) {
         <Button onClick={() => onAdd()}>Add</Button>
       </Flex>
       <DataTable
+        idAccessor="_id"
         withTableBorder
         withColumnBorders
         striped
