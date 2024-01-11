@@ -1,11 +1,11 @@
 import { useState } from "react"
 import AuthLayout from "../../layouts/AuthLayout"
-import { TextInput, PasswordInput, Text, Paper, Group, PaperProps, Button, Divider, Anchor, Stack, Center, Title } from "@mantine/core"
+import { TextInput, PasswordInput, Text, Paper, Group, PaperProps, Button, Anchor, Stack, Center, Title } from "@mantine/core"
 import { useForm, zodResolver } from "@mantine/form"
 import useToast from "../../hooks/use-toast"
 import { RegisterSchema } from "../../schemas/auth.schema"
 import BackendServices from "../../services/BackendServices"
-import { Navigate, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 export default function RegisterPage(props: PaperProps) {
   const [isLoading, setIsLoading] = useState(false)
@@ -22,7 +22,6 @@ export default function RegisterPage(props: PaperProps) {
   })
 
   const toast = useToast()
-
   const navigate = useNavigate()
 
   return (
@@ -34,7 +33,9 @@ export default function RegisterPage(props: PaperProps) {
           onSubmit={form.onSubmit(async (values) => {
             try {
               setIsLoading(true)
-              const res = await BackendServices.register(values.username, values.email, values.password, values.confirm_password)
+              const res = await BackendServices.register({
+                ...form.values,
+              })
               toast.success({ msg: "Register successfully" })
               form.reset()
             } catch (error: any) {

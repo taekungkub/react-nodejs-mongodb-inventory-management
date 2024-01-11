@@ -1,49 +1,29 @@
-import { useEffect, useState } from "react";
-import TableProduct from "../../features/Product/components/TableProduct";
-import useProduct from "../../features/Product/hooks/use-product";
-import { useDisclosure } from "@mantine/hooks";
-import ModalForm from "../../features/Product/components/ModalForm";
-import { ProductTy } from "../../types/product.type";
-import BackendServices from "../../services/BackendServices";
-import useToast from "../../hooks/use-toast";
+import { useState } from "react"
+import TableProduct from "../../features/Product/components/TableProduct"
+import useProduct from "../../features/Product/hooks/use-product"
+import { useDisclosure } from "@mantine/hooks"
+import ModalForm from "../../features/Product/components/ModalForm"
+import { ProductTy } from "../../types/product.type"
 
-type FormType = "ADD" | "EDIT";
+type FormType = "ADD" | "EDIT"
 
 export default function ProductsPage() {
-  const { onGetProducts, products } = useProduct();
-  const [opened, { open, close }] = useDisclosure(false);
-  const [type, setType] = useState<FormType>("ADD");
-  const [selected, setSelected] = useState<ProductTy | undefined>(undefined);
+  const [opened, { open, close }] = useDisclosure(false)
+  const [type, setType] = useState<FormType>("ADD")
+  const [selected, setSelected] = useState<ProductTy | undefined>(undefined)
 
-  const toast = useToast();
-
-  useEffect(() => {
-    onGetProducts();
-  }, []);
+  const { useProductQuery, onDelete } = useProduct()
+  const { products } = useProductQuery()
 
   function handleAdd() {
-    setType("ADD");
-    open();
+    setType("ADD")
+    open()
   }
 
   function handleEdit(payload: ProductTy) {
-    setSelected(payload);
-    setType("EDIT");
-    open();
-  }
-
-  async function handleSuccess() {
-    close();
-    onGetProducts();
-  }
-
-  async function handleDelete(data: ProductTy) {
-    try {
-      const res = await BackendServices.deleteProduct(data._id);
-      onGetProducts();
-    } catch (error: any) {
-      toast.error({ msg: error.description ? error.description : "Something went wrong" });
-    }
+    setSelected(payload)
+    setType("EDIT")
+    open()
   }
 
   return (
@@ -52,9 +32,9 @@ export default function ProductsPage() {
         data={products || []}
         onAdd={() => handleAdd()}
         onEdit={(selected) => handleEdit(selected)}
-        onDelete={(data) => handleDelete(data)}
+        onDelete={(data) => onDelete(data._id)}
       />
-      <ModalForm opened={opened} close={close} inititialForm={selected} type={type} onSuccess={() => handleSuccess()} />
+      <ModalForm opened={opened} close={close} inititialForm={selected} type={type} />
     </div>
-  );
+  )
 }

@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const ApiOne = axios.create({
-  baseURL: "http://localhost:4000/api",
+  baseURL: "http://localhost:8000/api",
   headers: {
     "Content-Type": "application/json",
   },
@@ -27,6 +27,16 @@ ApiOne.interceptors.request.use(
 
 ApiOne.interceptors.response.use(
   (response) => {
+    const successCode = "200"
+    const { statusCode } = response.data
+    if (statusCode) {
+      if (successCode.includes(statusCode)) {
+        return response
+      }
+
+      return Promise.reject(response.data)
+    }
+
     return response
   },
   (error) => {

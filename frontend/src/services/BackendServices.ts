@@ -1,5 +1,8 @@
+import { z } from "zod"
 import { UserTy } from "../types/user.type"
 import ApiOne from "./Api"
+import { ProductSchema } from "../schemas/product.schema"
+import { RegisterSchema } from "../schemas/auth.schema"
 
 export default {
   login(username: string, password: string) {
@@ -12,12 +15,9 @@ export default {
       password,
     })
   },
-  register(username: string, email: string, password: string, confirm_password: string) {
+  register(data: z.infer<typeof RegisterSchema>) {
     return ApiOne.post("/auth/register", {
-      username,
-      email,
-      password,
-      confirm_password,
+      ...data,
     })
   },
   profile() {
@@ -31,18 +31,14 @@ export default {
   product(id: string) {
     return ApiOne.get(`/products/${id}`)
   },
-  createProduct(title: string, description: string, stock: number) {
+  createProduct(data: z.infer<typeof ProductSchema>) {
     return ApiOne.post(`/products`, {
-      title,
-      description,
-      stock,
+      ...data,
     })
   },
-  editProduct(id: string | undefined, title: string, description: string, stock: number) {
+  editProduct(id: string, data: z.infer<typeof ProductSchema>) {
     return ApiOne.put(`/products/${id}`, {
-      title,
-      description,
-      stock,
+      ...data,
     })
   },
   deleteProduct(id: string) {
