@@ -8,8 +8,8 @@ import { useNavigate } from "react-router-dom"
 export default function LoginPage(props: PaperProps) {
   const form = useForm({
     initialValues: {
-      username: "taekungkub",
-      password: "123456",
+      username: "",
+      password: "",
     },
 
     validate: zodResolver(LoginSchema),
