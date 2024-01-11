@@ -6,7 +6,7 @@ export const ProductSchema = z.object({
       message: "Title is required",
     }),
     description: z.string(),
-    stock: z.number().min(1, {
+    stock: z.string().min(1, {
       message: "Stock is required",
     }),
   }),

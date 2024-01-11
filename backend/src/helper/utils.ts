@@ -6,17 +6,6 @@ import { UserTy } from "../types/user.type";
 
 const saltRounds = 10;
 
-export function errorResponse(statusCode: Number = 404, type: string, desc?: any) {
-  return {
-    statusCode: statusCode,
-    detail: "Error",
-    error: {
-      type: type,
-      description: desc,
-    },
-  };
-}
-
 export function successResponse(data: any) {
   return {
     statusCode: 200,

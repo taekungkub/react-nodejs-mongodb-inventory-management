@@ -1,8 +1,6 @@
 import { RequestHandler } from "express";
 import { Schema, ZodError } from "zod";
-import { errorResponse } from "../helper/utils";
-import { ERRORS } from "../helper/errors-message";
-import { ValidationError, fromZodError } from "zod-validation-error";
+import { fromZodError } from "zod-validation-error";
 
 const validateRequestSchema =
   (schema: Schema): RequestHandler =>
@@ -17,8 +15,10 @@ const validateRequestSchema =
     } catch (error: unknown) {
       if (error instanceof ZodError) {
         const validationError = fromZodError(error);
-        // return res.json(errorResponse(400, ERRORS.TYPE.BAD_REQUEST, validationError.message));
-        return res.json(errorResponse(400, ERRORS.TYPE.BAD_REQUEST, validationError.details[0].message)); // กรณี return ทีละ field
+        return res.status(200).json({
+          statusCode: 400,
+          description: validationError.details[0].message,
+        });
       } else {
         next(error);
       }
