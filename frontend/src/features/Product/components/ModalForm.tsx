@@ -51,7 +51,7 @@ export default function ModalForm({ opened, close, inititialForm, type }: Props)
 
   return (
     <div>
-      <Modal opened={opened} onClose={close} title="Add">
+      <Modal opened={opened} onClose={close} title={type === "ADD" ? "Add" : "Edit"}>
         <form onSubmit={form.onSubmit(async (values) => handleSubmit())}>
           <Stack>
             <TextInput required label="Title" {...form.getInputProps("title")} radius="md" />
