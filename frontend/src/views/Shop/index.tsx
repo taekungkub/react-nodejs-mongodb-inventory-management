@@ -10,35 +10,31 @@ export default function ShopPage() {
   const { products } = useProductQuery()
   const [carts, setCarts] = useState<CartItemTy[]>([])
 
-  async function addToCart(item: ProductTy) {
-    console.log(item)
-    const isItemInCart = carts.find((cartItem) => cartItem._id === item._id) // check if the item is already in the cart
-
+  async function onAddToCart(item: ProductTy) {
+    const isItemInCart = carts.find((cartItem) => cartItem._id === item._id)
     if (isItemInCart) {
-      setCarts(
-        carts.map(
-          (
-            cartItem // if the item is already in the cart, increase the quantity of the item
-          ) => (cartItem._id === item._id ? { ...cartItem, qty: cartItem.qty + 1 } : cartItem) // otherwise, return the cart item
-        )
-      )
+      setCarts(carts.map((cartItem) => (cartItem._id === item._id ? { ...cartItem, qty: cartItem.qty + 1 } : cartItem)))
     } else {
-      setCarts([...carts, { ...item, qty: 1 }]) // if the item is not in the cart, add the item to the cart
+      setCarts([...carts, { ...item, qty: 1 }])
     }
   }
 
+  async function onRemoveItemToCart(id: string) {
+    setCarts(carts.filter((v) => v._id !== id))
+  }
+
   const getCartTotal = () => {
-    return carts.reduce((total, item) => total + item.price * item.qty, 0) // calculate the total price of the items in the cart
+    return carts.reduce((total, item) => total + item.price * item.qty, 0)
   }
 
   const items = products?.map((v) => (
-    <div key={v._id} onClick={() => addToCart(v)}>
-      <CardProduct item={v} />
+    <div key={v._id}>
+      <CardProduct item={v} onAddToCart={() => onAddToCart(v)} />
     </div>
   ))
   const ItemsCarts = carts.map((v) => (
     <div key={v._id}>
-      <CardCartItem item={v} />
+      <CardCartItem item={v} onDelete={(id) => onRemoveItemToCart(id)} />
     </div>
   ))
 

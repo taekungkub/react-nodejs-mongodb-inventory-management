@@ -33,7 +33,7 @@ export default function ModalForm({ opened, close, inititialForm, type }: Props)
       form.reset()
     } else if (type === "EDIT") {
       if (inititialForm) {
-        form.setValues({ title: inititialForm.title, description: inititialForm.description, stock: String(inititialForm.stock) })
+        form.setValues({ ...inititialForm, price: String(inititialForm.price), stock: String(inititialForm.stock) })
       }
     }
   }, [type, inititialForm])

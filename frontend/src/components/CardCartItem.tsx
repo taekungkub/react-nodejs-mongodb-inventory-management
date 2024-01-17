@@ -4,9 +4,10 @@ import { CartItemTy } from "../types/product.type"
 
 interface Props {
   item: CartItemTy
+  onDelete: (id: string) => void
 }
 
-function CardCartItem({ item }: Props) {
+function CardCartItem({ item, onDelete }: Props) {
   return (
     <>
       <Card withBorder radius={"md"} mt={12} mb={"md"}>
@@ -26,7 +27,7 @@ function CardCartItem({ item }: Props) {
                   ${item.price} / Per Item
                 </Text>
               </div>
-              <ActionIcon variant="light" color="red">
+              <ActionIcon variant="light" color="red" onClick={() => onDelete(item._id)}>
                 <IconTrash size={"1rem"} />
               </ActionIcon>
             </Group>

@@ -1,14 +1,15 @@
 import { useState } from "react"
-import { IconLogout, IconBox, IconUser, IconShoppingCart } from "@tabler/icons-react"
+import { IconBox, IconShoppingCart, IconBook, IconDashboard } from "@tabler/icons-react"
 import classes from "./TheSidebar.module.css"
 import { ScrollArea, rem } from "@mantine/core"
 import { useLocation, useNavigate } from "react-router-dom"
 import useAuth from "../../context/AuthContext"
 
 const data = [
+  { label: "Dashboard", icon: IconDashboard, path: "/dashboard" },
   { label: "Shop", icon: IconShoppingCart, path: "/shop" },
-  { label: "Profile", icon: IconUser, path: "/profile" },
   { label: "Stock", icon: IconBox, path: "/stock" },
+  { label: "Order", icon: IconBook, path: "/order" },
 ]
 
 export function TheSidebar() {
@@ -40,12 +41,14 @@ export function TheSidebar() {
         <div className={classes.navbarMain}>{links}</div>
       </ScrollArea>
 
-      <div className={classes.footer}>
+      {/* <div className={classes.footer}>
+        <hr />
+
         <a className={classes.link} onClick={(event) => logout()}>
           <IconLogout className={classes.linkIcon} stroke={1.5} />
           <span>Logout</span>
         </a>
-      </div>
+      </div> */}
     </nav>
   )
 }

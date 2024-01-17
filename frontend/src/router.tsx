@@ -9,6 +9,8 @@ import UnAuthRoutes from "./middleware/UnAuthRoutes.tsx"
 import NotFoundPage from "./views/404/index.tsx"
 import ShopPage from "./views/Shop/index.tsx"
 import StockPage from "./views/Product/index.tsx"
+import OrderPage from "./views/Order/index.tsx"
+import DashboardPage from "./views/Dashboard/index.tsx"
 
 const router = createBrowserRouter([
   {
@@ -38,6 +40,10 @@ const router = createBrowserRouter([
             element: <DashboardLayout />,
             children: [
               {
+                path: "/dashboard",
+                element: <DashboardPage />,
+              },
+              {
                 path: "/shop",
                 element: <ShopPage />,
               },
@@ -48,6 +54,10 @@ const router = createBrowserRouter([
               {
                 path: "/stock",
                 element: <StockPage />,
+              },
+              {
+                path: "/order",
+                element: <OrderPage />,
               },
             ],
           },

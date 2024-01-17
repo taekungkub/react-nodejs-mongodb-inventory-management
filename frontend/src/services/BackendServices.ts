@@ -47,4 +47,10 @@ export default {
   deleteProduct(id: string) {
     return ApiOne.delete(`/products/${id}`)
   },
+  orders() {
+    return ApiOne.get("/orders")
+  },
+  createOrders() {
+    return ApiOne.post("/orders")
+  },
 }
