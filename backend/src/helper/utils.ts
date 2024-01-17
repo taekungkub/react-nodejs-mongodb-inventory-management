@@ -6,14 +6,6 @@ import { UserTy } from "../types/user.type";
 
 const saltRounds = 10;
 
-export function successResponse(data: any) {
-  return {
-    statusCode: 200,
-    detail: "Success",
-    data: data,
-  };
-}
-
 export function getTokenBearer(req: Request) {
   const bearerHeader = req.headers["authorization"];
 

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { ProductModel } from "../persistence/product.model";
+import { ProductModel } from "../model/product.model";
 import { ProductSchema } from "../validation/product.schema";
 
 export const getProducts = async (req: Request, res: Response) => {
@@ -9,7 +9,11 @@ export const getProducts = async (req: Request, res: Response) => {
     return res.status(200).json({
       data: products,
     });
-  } catch (error) {}
+  } catch (error) {
+    return res.status(500).json({
+      description: error.message,
+    });
+  }
 };
 
 export const createProduct = async (req: Request, res: Response) => {

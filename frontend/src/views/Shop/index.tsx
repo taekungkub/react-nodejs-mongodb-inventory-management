@@ -4,6 +4,7 @@ import useProduct from "../../hooks/use-product"
 import { Box, Button, Card, Flex, ScrollArea, Title } from "@mantine/core"
 import CardCartItem from "../../components/CardCartItem"
 import { CartItemTy, ProductTy } from "../../types/product.type"
+import useOrder from "../../hooks/use-order"
 
 export default function ShopPage() {
   const { useProductQuery } = useProduct()
@@ -27,6 +28,9 @@ export default function ShopPage() {
     return carts.reduce((total, item) => total + item.price * item.qty, 0)
   }
 
+  const { useAddOrder } = useOrder()
+  const createOrderMutation = useAddOrder()
+
   const items = products?.map((v) => (
     <div key={v._id}>
       <CardProduct item={v} onAddToCart={() => onAddToCart(v)} />
@@ -38,10 +42,24 @@ export default function ShopPage() {
     </div>
   ))
 
+  function handleBuy() {
+    const newMap = carts.map((v) => {
+      return {
+        productId: v._id,
+        qty: Number(v.qty),
+      }
+    })
+
+    createOrderMutation.mutate({
+      items: newMap,
+      totalAmount: getCartTotal().toString(),
+    })
+  }
+
   return (
-    <div className="grid grid-cols-4 gap-4">
-      <div className="col-span-3	">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">{items}</div>
+    <div className="grid  grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="md:col-span-3">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">{items}</div>
       </div>
       <div>
         <Card shadow="sm" p="md" radius="md" withBorder>
@@ -51,7 +69,9 @@ export default function ShopPage() {
           </Flex>
           <ScrollArea.Autosize mah={"60vh"}>{ItemsCarts}</ScrollArea.Autosize>
 
-          <Button fullWidth>Buy</Button>
+          <Button fullWidth onClick={() => handleBuy()} loading={createOrderMutation.isPending}>
+            Buy
+          </Button>
         </Card>
       </div>
     </div>

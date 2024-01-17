@@ -2,7 +2,7 @@ import passport from "passport";
 import passportJWT from "passport-jwt";
 import { secretJWT } from "./global-config";
 import { UserTy } from "@/types/user.type";
-import { UserModel } from "../persistence/user.model";
+import { UserModel } from "../model/user.model";
 
 const JwtStrategy = passportJWT.Strategy;
 const ExtractJwt = passportJWT.ExtractJwt;

@@ -4,6 +4,8 @@ import ApiOne from "./Api"
 import { ProductSchema } from "../schemas/product.schema"
 import { RegisterSchema } from "../schemas/auth.schema"
 import { ProductTy } from "../types/product.type"
+import { CreateOrderSchema } from "../schemas/order.schema"
+import { OrderTy } from "../types/order.type"
 
 export default {
   login(username: string, password: string) {
@@ -48,9 +50,17 @@ export default {
     return ApiOne.delete(`/products/${id}`)
   },
   orders() {
-    return ApiOne.get("/orders")
+    return ApiOne.get<{
+      data: OrderTy[]
+    }>("/orders")
   },
-  createOrders() {
-    return ApiOne.post("/orders")
+  createOrders(data: z.infer<typeof CreateOrderSchema>) {
+    return ApiOne.post<{
+      data: {
+        orderId: string
+      }
+    }>("/orders", {
+      ...data,
+    })
   },
 }

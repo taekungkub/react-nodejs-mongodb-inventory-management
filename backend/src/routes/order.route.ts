@@ -4,8 +4,9 @@ import { onlyAuth } from "../middleware/passport";
 
 const router = Router();
 
-router.get("/orders", orderController.getAllOrders);
-router.get("/orders/:id", orderController.getOrder);
-router.post("/orders", onlyAuth);
+router.get("/orders", onlyAuth, orderController.getAllOrders);
+router.get("/orders/:id", onlyAuth, orderController.getOrder);
+router.post("/orders", onlyAuth, orderController.createOrders);
+router.put("/orders/:id/status", onlyAuth, orderController.updateOrderStatus);
 
 export default router;

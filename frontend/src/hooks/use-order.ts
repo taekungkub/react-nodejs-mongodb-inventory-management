@@ -1,23 +1,23 @@
 import BackendServices from "../services/BackendServices"
 import useToast from "../hooks/use-toast"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { ProductSchema } from "../schemas/product.schema"
 import { z } from "zod"
+import { CreateOrderSchema } from "../schemas/order.schema"
 
-export default function useProduct() {
+export default function useOrder() {
   const toast = useToast()
   const queryClient = useQueryClient()
 
   const useOrderQuery = () =>
     useQuery({
       queryKey: ["orders"],
-      queryFn: async () => await BackendServices.products(),
+      queryFn: async () => await BackendServices.orders(),
       select: (res) => res.data.data,
     })
 
   const useAddOrder = () =>
     useMutation({
-      mutationFn: async (data: z.infer<typeof ProductSchema>) => await BackendServices.createOrders(),
+      mutationFn: async (data: z.infer<typeof CreateOrderSchema>) => await BackendServices.createOrders(data),
       onSuccess: (res) => {
         queryClient.invalidateQueries({ queryKey: ["orders"] })
         toast.success({ msg: "Create order successfully" })

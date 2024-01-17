@@ -27,7 +27,7 @@ export default function CardProduct({ item, onAddToCart }: Props) {
         ${item.price} / {item.stock} in stock
       </Text>
 
-      <Button color="blue" fullWidth mt="md" radius="md" onClick={() => onAddToCart}>
+      <Button color="blue" fullWidth mt="md" radius="md" onClick={() => onAddToCart()}>
         Add to cart
       </Button>
     </Card>
