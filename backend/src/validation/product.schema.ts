@@ -9,6 +9,9 @@ export const ProductSchema = z.object({
     stock: z.string().min(1, {
       message: "Stock is required",
     }),
+    price: z.string().min(1, {
+      message: "Price is required",
+    }),
   }),
 });
 

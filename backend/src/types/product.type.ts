@@ -3,6 +3,7 @@ export interface ProductTy {
   title: string;
   description?: string;
   stock: number;
+  price: number;
   createdAt?: Date;
   updatedAt?: Date;
 }

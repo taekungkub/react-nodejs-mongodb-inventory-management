@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { comparePassword, hashPassword, jwtTokenGenerate, successResponse } from "@/helper/utils";
-import { UserModel } from "../persistence/mongodb/user.model";
+import { UserModel } from "../persistence/user.model";
 import { LoginSchema, RegisterSchema } from "../validation/auth.schema";
 import { UserTy } from "../types/user.type";
 

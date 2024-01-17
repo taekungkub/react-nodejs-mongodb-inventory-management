@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import { UserTy } from "@/types/user.type";
 
-// User Config
 const UserSchema = new mongoose.Schema<UserTy>(
   {
     username: { type: String, required: true },

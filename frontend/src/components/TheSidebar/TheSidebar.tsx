@@ -1,17 +1,18 @@
 import { useState } from "react"
-import { IconLogout, IconBox, IconUser } from "@tabler/icons-react"
+import { IconLogout, IconBox, IconUser, IconShoppingCart } from "@tabler/icons-react"
 import classes from "./TheSidebar.module.css"
 import { ScrollArea, rem } from "@mantine/core"
 import { useLocation, useNavigate } from "react-router-dom"
 import useAuth from "../../context/AuthContext"
 
 const data = [
+  { label: "Shop", icon: IconShoppingCart, path: "/shop" },
   { label: "Profile", icon: IconUser, path: "/profile" },
-  { label: "Product", icon: IconBox, path: "/product" },
+  { label: "Stock", icon: IconBox, path: "/stock" },
 ]
 
 export function TheSidebar() {
-  const [active, setActive] = useState("Billing")
+  const [active, setActive] = useState("/")
   const location = useLocation()
   const navigation = useNavigate()
 

@@ -3,6 +3,7 @@ import { UserTy } from "../types/user.type"
 import ApiOne from "./Api"
 import { ProductSchema } from "../schemas/product.schema"
 import { RegisterSchema } from "../schemas/auth.schema"
+import { ProductTy } from "../types/product.type"
 
 export default {
   login(username: string, password: string) {
@@ -26,7 +27,9 @@ export default {
     }>("/auth/profile")
   },
   products() {
-    return ApiOne.get("/products")
+    return ApiOne.get<{
+      data: ProductTy[]
+    }>("/products")
   },
   product(id: string) {
     return ApiOne.get(`/products/${id}`)

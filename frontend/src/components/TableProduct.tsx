@@ -3,7 +3,7 @@ import { DataTable, DataTableSortStatus } from "mantine-datatable"
 import { useEffect, useState } from "react"
 import sortBy from "lodash/sortBy"
 import { IconChevronUp, IconEdit, IconEye, IconSelector, IconTrash } from "@tabler/icons-react"
-import { ProductTy } from "../../../types/product.type"
+import { ProductTy } from "../types/product.type"
 import dayjs from "dayjs"
 
 interface Props {
@@ -62,6 +62,8 @@ export default function TableProduct({ data, onEdit, onAdd, onDelete }: Props) {
           },
           { title: "Title", accessor: "title", sortable: true },
           { title: "Description", accessor: "description", width: 200 },
+          { title: "Price", accessor: "price", sortable: true },
+
           { title: "Stock", accessor: "stock", sortable: true },
           {
             title: "createdAt",

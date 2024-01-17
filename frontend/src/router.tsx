@@ -1,13 +1,14 @@
 import { createBrowserRouter, Navigate } from "react-router-dom"
-import LoginPage from "./features/Login/index.tsx"
-import RegisterPage from "./features/Register/index.tsx"
+import LoginPage from "./views/Login/index.tsx"
+import RegisterPage from "./views/Register/index.tsx"
 import DashboardLayout from "./layouts/DashboardLayout.tsx"
-import ProductPage from "./views/Product/index.tsx"
 import ProfilePage from "./views/Profile/index.tsx"
 import { AuthProvider } from "./context/AuthContext.tsx"
 import PrivateRoutes from "./middleware/PrivateRoutes.tsx"
 import UnAuthRoutes from "./middleware/UnAuthRoutes.tsx"
 import NotFoundPage from "./views/404/index.tsx"
+import ShopPage from "./views/Shop/index.tsx"
+import StockPage from "./views/Product/index.tsx"
 
 const router = createBrowserRouter([
   {
@@ -37,12 +38,16 @@ const router = createBrowserRouter([
             element: <DashboardLayout />,
             children: [
               {
+                path: "/shop",
+                element: <ShopPage />,
+              },
+              {
                 path: "/profile",
                 element: <ProfilePage />,
               },
               {
-                path: "/product",
-                element: <ProductPage />,
+                path: "/stock",
+                element: <StockPage />,
               },
             ],
           },

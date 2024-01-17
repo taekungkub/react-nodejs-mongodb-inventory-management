@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { ProductModel } from "../persistence/mongodb/product.model";
+import { ProductModel } from "../persistence/product.model";
 import { ProductSchema } from "../validation/product.schema";
 
 export const getProducts = async (req: Request, res: Response) => {
@@ -20,12 +20,15 @@ export const createProduct = async (req: Request, res: Response) => {
       throw new Error("Invalid field");
     }
 
-    const { title, description, stock } = validatedFields.data.body;
+    const { title, description, stock, price } = validatedFields.data.body;
+
+    console.log(price);
 
     const newProduct = await new ProductModel({
       title,
       description,
       stock,
+      price,
     })
       .save()
       .then((product) => product.toObject());

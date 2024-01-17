@@ -1,7 +1,7 @@
 import { TextInput, Button, Stack, Modal } from "@mantine/core"
 import { useForm, zodResolver } from "@mantine/form"
-import { ProductSchema } from "../../../schemas/product.schema"
-import { ProductTy } from "../../../types/product.type"
+import { ProductSchema } from "../schemas/product.schema"
+import { ProductTy } from "../types/product.type"
 import { useEffect } from "react"
 import useProduct from "../hooks/use-product"
 
@@ -13,11 +13,17 @@ type Props = {
 }
 
 export default function ModalForm({ opened, close, inititialForm, type }: Props) {
+  const { useAddProduct, useEditProduct } = useProduct()
+
+  const onAddProductMutation = useAddProduct()
+  const onEditProductMutation = useEditProduct()
+
   const form = useForm({
     initialValues: {
       title: "",
       description: "",
       stock: "",
+      price: "",
     },
     validate: zodResolver(ProductSchema),
   })
@@ -32,20 +38,18 @@ export default function ModalForm({ opened, close, inititialForm, type }: Props)
     }
   }, [type, inititialForm])
 
-  const { onAddProduct, isLoadingAdd, isSuccessAdd, onEditProduct, isLoadingEdit, isSuccessEdit } = useProduct()
-
   useEffect(() => {
     form.reset()
     close()
-  }, [isSuccessAdd, isSuccessEdit])
+  }, [onAddProductMutation.isSuccess, onEditProductMutation.isSuccess])
 
   async function handleSubmit() {
     if (type === "ADD") {
-      onAddProduct({
+      onAddProductMutation.mutate({
         ...form.values,
       })
     } else if (type === "EDIT") {
-      onEditProduct({ id: String(inititialForm?._id), data: { ...form.values } })
+      onEditProductMutation.mutate({ id: String(inititialForm?._id), data: { ...form.values } })
     }
   }
 
@@ -57,8 +61,9 @@ export default function ModalForm({ opened, close, inititialForm, type }: Props)
             <TextInput required label="Title" {...form.getInputProps("title")} radius="md" />
             <TextInput label="Description" {...form.getInputProps("description")} radius="md" />
             <TextInput type="number" required label="Stock" {...form.getInputProps("stock")} radius="md" />
+            <TextInput type="number" required label="Price" {...form.getInputProps("price")} radius="md" />
           </Stack>
-          <Button type="submit" fullWidth mt={"md"} loading={isLoadingAdd || isLoadingEdit}>
+          <Button type="submit" fullWidth mt={"md"} loading={onAddProductMutation.isPending || onEditProductMutation.isPending}>
             {type === "ADD" ? "Add" : "Edit"}
           </Button>
         </form>
