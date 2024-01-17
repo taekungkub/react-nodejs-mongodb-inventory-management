@@ -6,7 +6,9 @@ import { ProductModel } from "@/model/product.model";
 
 export const getAllOrders = async (req: Request, res: Response) => {
   try {
-    const orders = await OrderModel.find();
+    const orders = await OrderModel.find().populate("userId", "username email"); // only return the Persons name
+
+    console.log(orders);
     return res.status(200).json({
       data: orders,
     });
