@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import CardProduct from "../../components/CardProduct"
-import useProduct from "../../features/Product/hooks/use-product"
+import useProduct from "../../hooks/use-product"
 import { Box, Button, Card, Flex, ScrollArea, Title } from "@mantine/core"
 import CardCartItem from "../../components/CardCartItem"
 import { CartItemTy, ProductTy } from "../../types/product.type"

@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon",
+    "dev": "nodemon --legacy-watch",
     "build": "tsc && tsc-alias",
     "start": "npm run build && cross-env node dist/app.js"
   },

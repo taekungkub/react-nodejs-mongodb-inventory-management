@@ -20,15 +20,10 @@ export const createProduct = async (req: Request, res: Response) => {
       throw new Error("Invalid field");
     }
 
-    const { title, description, stock, price } = validatedFields.data.body;
-
-    console.log(price);
+    const body = validatedFields.data.body;
 
     const newProduct = await new ProductModel({
-      title,
-      description,
-      stock,
-      price,
+      ...body,
     })
       .save()
       .then((product) => product.toObject());
@@ -83,7 +78,7 @@ export const updateProduct = async (req: Request, res: Response) => {
       throw new Error("Invalid field");
     }
 
-    const { title, description, stock } = validatedFields.data.body;
+    const body = validatedFields.data.body;
 
     const existProduct = await ProductModel.findByIdAndUpdate(
       {
@@ -91,9 +86,7 @@ export const updateProduct = async (req: Request, res: Response) => {
       },
       {
         $set: {
-          title,
-          description,
-          stock,
+          ...body,
         },
       }
     );
