@@ -15,11 +15,12 @@ export default function useOrder() {
       select: (res) => res.data.data,
     })
 
-  const useAddOrder = () =>
+  const useCreateOrder = () =>
     useMutation({
       mutationFn: async (data: z.infer<typeof CreateOrderSchema>) => await BackendServices.createOrders(data),
       onSuccess: (res) => {
         queryClient.invalidateQueries({ queryKey: ["orders"] })
+        queryClient.invalidateQueries({ queryKey: ["products"] })
         toast.success({ msg: "Create order successfully" })
       },
       onError(error: any) {
@@ -27,5 +28,17 @@ export default function useOrder() {
       },
     })
 
-  return { useOrderQuery, useAddOrder }
+  const useUpdateOrderStatus = () =>
+    useMutation({
+      mutationFn: async ({ id, status }: { id: string; status: string }) => await BackendServices.updaetOrderStatus(id, status),
+      onSuccess: (res) => {
+        queryClient.invalidateQueries({ queryKey: ["orders"] })
+        toast.success({ msg: "Update order successfully" })
+      },
+      onError(error: any) {
+        toast.error({ msg: error.description ? error.description : "Something went wrong" })
+      },
+    })
+
+  return { useOrderQuery, useCreateOrder, useUpdateOrderStatus }
 }

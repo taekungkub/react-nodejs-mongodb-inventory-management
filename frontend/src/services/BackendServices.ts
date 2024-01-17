@@ -63,4 +63,9 @@ export default {
       ...data,
     })
   },
+  updaetOrderStatus(id: string, status: string) {
+    return ApiOne.put(`/orders/${id}/status`, {
+      status,
+    })
+  },
 }

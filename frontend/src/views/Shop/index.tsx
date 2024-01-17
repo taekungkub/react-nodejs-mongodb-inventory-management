@@ -28,8 +28,8 @@ export default function ShopPage() {
     return carts.reduce((total, item) => total + item.price * item.qty, 0)
   }
 
-  const { useAddOrder } = useOrder()
-  const createOrderMutation = useAddOrder()
+  const { useCreateOrder } = useOrder()
+  const createOrderMutation = useCreateOrder()
 
   const items = products?.map((v) => (
     <div key={v._id}>
@@ -43,17 +43,25 @@ export default function ShopPage() {
   ))
 
   function handleBuy() {
-    const newMap = carts.map((v) => {
-      return {
-        productId: v._id,
-        qty: Number(v.qty),
+    try {
+      if (!carts.length) {
+        return
       }
-    })
 
-    createOrderMutation.mutate({
-      items: newMap,
-      totalAmount: getCartTotal().toString(),
-    })
+      const newMap = carts.map((v) => {
+        return {
+          productId: v._id,
+          qty: Number(v.qty),
+        }
+      })
+
+      createOrderMutation.mutate({
+        items: newMap,
+        totalAmount: getCartTotal().toString(),
+      })
+
+      setCarts([])
+    } catch (error) {}
   }
 
   return (

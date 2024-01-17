@@ -1,18 +1,28 @@
 import { Title } from "@mantine/core"
-import React from "react"
+import React, { useState } from "react"
 import useOrder from "../../hooks/use-order"
 import TableOrder from "../../components/TableOrder"
+import ModalFormOrder from "../../components/ModalFormOrder"
+import { useDisclosure } from "@mantine/hooks"
+import { OrderTy } from "../../types/order.type"
 
 type Props = {}
 
 export default function OrderPage({}: Props) {
   const { useOrderQuery } = useOrder()
-
   const { data } = useOrderQuery()
+  const [opened, { open, close }] = useDisclosure(false)
+  const [selected, setSelected] = useState<OrderTy | undefined>(undefined)
+
+  function handleEdit(payload: OrderTy) {
+    setSelected(payload)
+    open()
+  }
+
   return (
     <div>
-      {JSON.stringify(data)}
-      <TableOrder data={data || []} />
+      <TableOrder data={data || []} onEdit={(order) => handleEdit(order)} />
+      <ModalFormOrder opened={opened} close={close} inititialForm={selected} />
     </div>
   )
 }

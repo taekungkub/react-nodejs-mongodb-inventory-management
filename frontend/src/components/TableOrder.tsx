@@ -1,4 +1,4 @@
-import { ActionIcon, Button, Flex, Group, Popover, Text, Title } from "@mantine/core"
+import { ActionIcon, Badge, Button, Flex, Group, Popover, Select, Text, Title } from "@mantine/core"
 import { DataTable, DataTableSortStatus } from "mantine-datatable"
 import { useEffect, useState } from "react"
 import sortBy from "lodash/sortBy"
@@ -9,13 +9,11 @@ import { OrderTy } from "../types/order.type"
 interface Props {
   data: Array<OrderTy>
   onEdit: (data: OrderTy) => void
-  onAdd: () => void
-  onDelete: (data: OrderTy) => void
 }
 
 const PAGE_SIZES = [10, 15, 20]
 
-export default function TableOrder({ data, onEdit, onAdd, onDelete }: Props) {
+export default function TableOrder({ data, onEdit }: Props) {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(PAGE_SIZES[1])
 
@@ -60,15 +58,27 @@ export default function TableOrder({ data, onEdit, onAdd, onDelete }: Props) {
             sortable: true,
           },
           { title: "Title", accessor: "title", sortable: true },
-
           {
-            title: "TotalAmount",
+            title: "Total Amount",
             accessor: "totalAmount",
             sortable: true,
             render: ({ totalAmount }: OrderTy) => <>${totalAmount}</>,
           },
           {
-            title: "createdAt",
+            title: "Status",
+            accessor: "status",
+            textAlign: "center",
+            sortable: true,
+            render: ({ status }: OrderTy) => (
+              <>
+                {status === "pending" && <Badge color="yellow">{status}</Badge>}
+                {status === "shipped" && <Badge color="blue">{status}</Badge>}
+                {status === "delivered" && <Badge color="green">{status}</Badge>}
+              </>
+            ),
+          },
+          {
+            title: "CreateAt",
             accessor: "createdAt",
             sortable: true,
             render: ({ createdAt }: OrderTy) => <>{dayjs(new Date(createdAt).toUTCString()).format("ddd, MMM D, YYYY h:mm A")}</>,
@@ -77,35 +87,15 @@ export default function TableOrder({ data, onEdit, onAdd, onDelete }: Props) {
             title: "Action",
             accessor: "actions",
             textAlign: "center",
-
-            render: (product) => (
+            render: (order) => (
               <Group gap={4} justify="center" wrap="nowrap">
                 <ActionIcon size="sm" variant="subtle" color="green">
                   <IconEye size={16} />
                 </ActionIcon>
-                <ActionIcon size="sm" variant="subtle" color="blue" onClick={() => onEdit(product)}>
+
+                <ActionIcon size="sm" variant="subtle" color="blue" onClick={() => onEdit(order)}>
                   <IconEdit size={16} />
                 </ActionIcon>
-                <Popover width={200} position="bottom" withArrow shadow="md">
-                  <Popover.Target>
-                    <ActionIcon size="sm" variant="subtle" color="red">
-                      <IconTrash size={16} />
-                    </ActionIcon>
-                  </Popover.Target>
-                  <Popover.Dropdown>
-                    <Text ta={"center"} size="xs">
-                      Are you sure you want to delete
-                    </Text>
-                    <Flex justify={"center"} gap={"md"} mt={"sm"}>
-                      <Button variant="default" size="xs">
-                        Cancel
-                      </Button>
-                      <Button color="red" size="xs" onClick={() => onDelete(product)}>
-                        Delete
-                      </Button>
-                    </Flex>
-                  </Popover.Dropdown>
-                </Popover>
               </Group>
             ),
           },
