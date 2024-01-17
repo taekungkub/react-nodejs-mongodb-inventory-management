@@ -1,10 +1,11 @@
 import React, { useState } from "react"
 import CardProduct from "../../components/CardProduct"
 import useProduct from "../../hooks/use-product"
-import { Box, Button, Card, Flex, ScrollArea, Title } from "@mantine/core"
+import { Box, Button, Card, Center, Flex, ScrollArea, Text, Title } from "@mantine/core"
 import CardCartItem from "../../components/CardCartItem"
 import { CartItemTy, ProductTy } from "../../types/product.type"
 import useOrder from "../../hooks/use-order"
+import { IconMoodSad } from "@tabler/icons-react"
 
 export default function ShopPage() {
   const { useProductQuery } = useProduct()
@@ -75,9 +76,19 @@ export default function ShopPage() {
             <Title order={3}>Cart</Title>
             <Title order={3}>Total: ${getCartTotal()}</Title>
           </Flex>
-          <ScrollArea.Autosize mah={"60vh"}>{ItemsCarts}</ScrollArea.Autosize>
+          <ScrollArea.Autosize mah={"60vh"}>
+            {carts.length === 0 ? (
+              <Center py={"lg"}>
+                <Box p={4} mb={4}>
+                  <Text c={"dimmed"}>No Items</Text>
+                </Box>
+              </Center>
+            ) : (
+              <div>{ItemsCarts}</div>
+            )}
+          </ScrollArea.Autosize>
 
-          <Button fullWidth onClick={() => handleBuy()} loading={createOrderMutation.isPending}>
+          <Button mt={"md"} fullWidth onClick={() => handleBuy()} loading={createOrderMutation.isPending}>
             Buy
           </Button>
         </Card>
