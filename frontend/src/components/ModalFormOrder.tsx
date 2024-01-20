@@ -35,7 +35,7 @@ export default function ModalFormOrder({ opened, inititialForm, close }: Props) 
               { value: "shipped", label: "Shipped" },
               { value: "delivered", label: "Delivered" },
             ]}
-            value={inititialForm?.status}
+            value={value}
             onChange={(_value, option) => setValue(option.value)}
           />
         </Stack>

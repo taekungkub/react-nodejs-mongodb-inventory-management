@@ -7,6 +7,7 @@ interface Props {
   onDelete: (id: string) => void
 }
 
+
 function CardCartItem({ item, onDelete }: Props) {
   return (
     <>

@@ -4,6 +4,7 @@ export interface ProductTy {
   description?: string;
   stock: number;
   price: number;
+  status?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 }

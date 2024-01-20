@@ -1,7 +1,7 @@
 import AuthLayout from "../../layouts/AuthLayout"
 import { TextInput, PasswordInput, Paper, PaperProps, Button, Anchor, Stack, Center, Title } from "@mantine/core"
 import { useForm, zodResolver } from "@mantine/form"
-import { LoginSchema } from "../../schemas/auth.schema"
+import { LoginSchema } from "../../validation/auth.schema"
 import useAuth from "../../context/AuthContext"
 import { useNavigate } from "react-router-dom"
 

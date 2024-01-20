@@ -1,12 +1,12 @@
-import BackendServices from "../services/BackendServices"
-import useToast from "../hooks/use-toast"
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { ProductSchema } from "../schemas/product.schema"
-import { z } from "zod"
+import BackendServices from "../services/BackendServices";
+import useToast from "../hooks/use-toast";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { ProductSchema } from "../validation/product.schema";
+import { z } from "zod";
 
 export default function useProduct() {
-  const toast = useToast()
-  const queryClient = useQueryClient()
+  const toast = useToast();
+  const queryClient = useQueryClient();
 
   function useProductQuery() {
     const {
@@ -17,49 +17,63 @@ export default function useProduct() {
       queryKey: ["products"],
       queryFn: async () => await BackendServices.products(),
       select: (res) => res.data.data,
-    })
+    });
 
     return {
       isLoading,
       isFetched,
       products,
-    }
+    };
   }
 
   const useAddProduct = () =>
     useMutation({
-      mutationFn: async (data: z.infer<typeof ProductSchema>) => await BackendServices.createProduct(data),
+      mutationFn: async (data: z.infer<typeof ProductSchema>) =>
+        await BackendServices.createProduct(data),
       onSuccess: (res) => {
-        queryClient.invalidateQueries({ queryKey: ["products"] })
-        toast.success({ msg: "Create product successfully" })
+        queryClient.invalidateQueries({ queryKey: ["products"] });
+        toast.success({ msg: "Create product successfully" });
       },
       onError(error: any) {
-        toast.error({ msg: error.description ? error.description : "Something went wrong" })
+        toast.error({
+          msg: error.description ? error.description : "Something went wrong",
+        });
       },
-    })
+    });
 
   const useEditProduct = () =>
     useMutation({
-      mutationFn: async ({ id, data }: { id: string; data: z.infer<typeof ProductSchema> }) => await BackendServices.editProduct(id, data),
+      mutationFn: async ({
+        id,
+        data,
+      }: {
+        id: string;
+        data: z.infer<typeof ProductSchema>;
+      }) => await BackendServices.editProduct(id, data),
       onSuccess: (res) => {
-        queryClient.invalidateQueries({ queryKey: ["products"] })
-        toast.success({ msg: "Update product successfully" })
+        queryClient.invalidateQueries({ queryKey: ["products"] });
+        queryClient.invalidateQueries({ queryKey: ["dashboard-stock"] });
+        toast.success({ msg: "Update product successfully" });
       },
       onError(error: any) {
-        toast.error({ msg: error.description ? error.description : "Something went wrong" })
+        toast.error({
+          msg: error.description ? error.description : "Something went wrong",
+        });
       },
-    })
+    });
 
   const useDeleteProduct = () =>
     useMutation({
       mutationFn: async (id: string) => await BackendServices.deleteProduct(id),
       onSuccess: (res) => {
-        queryClient.invalidateQueries({ queryKey: ["products"] })
+        queryClient.invalidateQueries({ queryKey: ["products"] });
       },
       onError(error: any) {
-        toast.error({ msg: error.description ? error.description : "Something went wrong" })
+        toast.error({
+          msg: error.description ? error.description : "Something went wrong",
+        });
       },
-    })
+    });
 
-  return { useProductQuery, useAddProduct, useEditProduct, useDeleteProduct }
+  return { useProductQuery, useAddProduct, useEditProduct, useDeleteProduct };
 }

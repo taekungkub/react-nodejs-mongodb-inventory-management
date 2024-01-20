@@ -3,7 +3,7 @@ import AuthLayout from "../../layouts/AuthLayout"
 import { TextInput, PasswordInput, Text, Paper, Group, PaperProps, Button, Anchor, Stack, Center, Title } from "@mantine/core"
 import { useForm, zodResolver } from "@mantine/form"
 import useToast from "../../hooks/use-toast"
-import { RegisterSchema } from "../../schemas/auth.schema"
+import { RegisterSchema } from "../../validation/auth.schema"
 import BackendServices from "../../services/BackendServices"
 import { useNavigate } from "react-router-dom"
 

@@ -7,7 +7,9 @@ const ProductSchema = new mongoose.Schema<ProductTy>(
     description: { type: String, required: false },
     stock: { type: Number, required: true },
     price: { type: Number, required: true },
+    status: { type: Boolean },
   },
+
   { collection: "product", timestamps: true }
 );
 

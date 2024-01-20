@@ -77,6 +77,7 @@ export default function TableOrder({ data, onEdit }: Props) {
               </>
             ),
           },
+
           {
             title: "CreateAt",
             accessor: "createdAt",
