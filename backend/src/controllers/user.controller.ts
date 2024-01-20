@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
-import { CategoryModel } from "../model/category.model";
-import { CategorySchema } from "@/validation/product.schema";
+import { UserModel } from "../model/user.model";
+import { CreateUserSchema } from "../validation/user.schema";
 
-export const getCategory = async (req: Request, res: Response) => {
+export const getUsers = async (req: Request, res: Response) => {
   try {
-    const categories = await CategoryModel.find();
+    const users = await UserModel.find();
     return res.status(200).json({
       status: "success",
-      data: categories,
+      data: users,
     });
   } catch (error) {
     return res.status(500).json({
@@ -16,9 +16,9 @@ export const getCategory = async (req: Request, res: Response) => {
   }
 };
 
-export const createCategory = async (req: Request, res: Response) => {
+export const createUser = async (req: Request, res: Response) => {
   try {
-    const validatedFields = await CategorySchema.safeParseAsync(req);
+    const validatedFields = await CreateUserSchema.safeParseAsync(req);
 
     if (!validatedFields.success) {
       throw new Error("Invalid field");
@@ -26,17 +26,17 @@ export const createCategory = async (req: Request, res: Response) => {
 
     const body = validatedFields.data.body;
 
-    const newCategory = await new CategoryModel({
+    const newUser = await new UserModel({
       ...body,
     })
       .save()
-      .then((category) => category.toObject());
+      .then((user) => user.toObject());
 
     return res.status(200).json({
       status: "success",
-      description: "Successfully created the category",
+      description: "Successfully created the user",
       data: {
-        ...newCategory,
+        ...newUser,
       },
     });
   } catch (error) {
@@ -46,13 +46,13 @@ export const createCategory = async (req: Request, res: Response) => {
   }
 };
 
-export const updateCategoryById = async (req: Request, res: Response) => {
+export const updateUserById = async (req: Request, res: Response) => {
   try {
     if (!req.params.id) {
-      throw new Error("CategoryId not found");
+      throw new Error("UserId not found");
     }
 
-    const validatedFields = await CategorySchema.safeParseAsync(req);
+    const validatedFields = await CreateUserSchema.safeParseAsync(req);
 
     if (!validatedFields.success) {
       throw new Error("Invalid field");
@@ -60,13 +60,14 @@ export const updateCategoryById = async (req: Request, res: Response) => {
 
     const body = validatedFields.data.body;
 
-    const result = await CategoryModel.findByIdAndUpdate(req.params.id, { $set: { ...body } });
+    const result = await UserModel.findByIdAndUpdate(req.params.id, { $set: { ...body } });
+
     if (!result) {
-      throw new Error("Category not found");
+      throw new Error("User not found");
     }
     res.status(200).json({
       status: "success",
-      description: "Category  update successful",
+      description: "User  update successful",
       data: result,
     });
   } catch (error) {
@@ -76,19 +77,19 @@ export const updateCategoryById = async (req: Request, res: Response) => {
   }
 };
 
-export const deleteCategoryById = async (req: Request, res: Response) => {
+export const deleteUserById = async (req: Request, res: Response) => {
   try {
     if (!req.params.id) {
       throw new Error("CategoryId not found");
     }
 
-    const result = await CategoryModel.findByIdAndDelete(req.params.id);
+    const result = await UserModel.findByIdAndDelete(req.params.id);
     if (!result) {
-      throw new Error("Category not found");
+      throw new Error("User not found");
     }
     res.status(200).json({
       status: "success",
-      description: "Category  update successful",
+      description: "User  update successful",
       data: result,
     });
   } catch (error) {

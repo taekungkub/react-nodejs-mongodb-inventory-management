@@ -44,6 +44,7 @@ export async function jwtTokenGenerate(user: UserTy) {
   const cleanUser = {
     email: user.email,
     username: user.username,
+    role: user.role,
   };
   const accessToken = jwt.sign(cleanUser, secretJWT, { expiresIn: "6h" });
   return accessToken;

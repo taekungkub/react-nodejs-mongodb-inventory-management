@@ -7,6 +7,7 @@ import { CategoryTy, ProductTy } from "../types/product.type";
 import { CreateOrderSchema } from "../validation/order.schema";
 import { OrderTy } from "../types/order.type";
 import { DashboardStockTy, DashboardTy } from "../types/dashboard.type";
+import { CreateUserSchema } from "../validation/user.schema";
 
 export default {
   login(username: string, password: string) {
@@ -98,5 +99,24 @@ export default {
   },
   deleteCategory(id: string) {
     return ApiOne.delete(`/category/${id}`);
+  },
+  users() {
+    return ApiOne.get(`/users`);
+  },
+  user(id: string) {
+    return ApiOne.get(`/users/${id}`);
+  },
+  createUser(id: string, data: z.infer<typeof CreateUserSchema>) {
+    return ApiOne.post(`/users/${id}`, {
+      data,
+    });
+  },
+  updateUser(id: string, data: z.infer<typeof CreateUserSchema>) {
+    return ApiOne.put(`/users/${id}`, {
+      data,
+    });
+  },
+  deleteUser(id: string) {
+    return ApiOne.delete(`/users/${id}`);
   },
 };

@@ -1,9 +1,8 @@
 import { useState } from "react"
-import { IconBox, IconShoppingCart, IconBook, IconDashboard, IconUsersGroup, IconBrandProducthunt, IconBoxAlignBottom, IconShoppingCartPlus } from "@tabler/icons-react"
+import { IconBox, IconShoppingCart, IconBook, IconDashboard, IconUsersGroup, IconBrandProducthunt, IconBoxAlignBottom, IconShoppingCartPlus, IconUserPlus } from "@tabler/icons-react"
 import classes from "./TheSidebar.module.css"
 import { ScrollArea, rem } from "@mantine/core"
 import { useLocation, useNavigate } from "react-router-dom"
-import useAuth from "../../context/AuthContext"
 
 const data = [
   { label: "Dashboard", icon: IconDashboard, path: "/dashboard" },
@@ -11,6 +10,7 @@ const data = [
   { label: "Stock", icon: IconBox, path: "/stock" },
   { label: "Order", icon: IconBook, path: "/order" },
   { label: "Category", icon: IconShoppingCartPlus, path: "/category" },
+  { label: "User", icon: IconUserPlus, path: "/user" },
 
 ]
 
