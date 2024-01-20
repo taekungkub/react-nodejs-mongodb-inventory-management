@@ -91,7 +91,7 @@ export default function DrawerFormUser({
             <Select
               required
               label="Role"
-              data={["user", "admin", "root"]}
+              data={["user", "admin"]}
               {...form.getInputProps("role")}
             />
           </Stack>

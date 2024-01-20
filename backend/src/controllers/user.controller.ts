@@ -31,8 +31,16 @@ export const createUser = async (req: Request, res: Response) => {
       username: body.username,
     });
 
+    const emailExist = await UserModel.findOne({
+      email: body.email,
+    });
+
     if (usernameExist) {
-      throw new Error("Email or Username already exist");
+      throw new Error(" Username already exist");
+    }
+
+    if (emailExist) {
+      throw new Error("Email  already exist");
     }
 
     const passwordHash = await hashPassword(body.password);
@@ -72,15 +80,24 @@ export const updateUserById = async (req: Request, res: Response) => {
 
     const body = validatedFields.data.body;
 
-    const passwordHash = await hashPassword(body.password);
+    const userUsernameExist = await UserModel.findOne({ username: body.username });
+    const userEmailExist = await UserModel.findOne({ email: body.email });
+    const userOwn = await UserModel.findById(req.params.id).select("+password");
 
-    const userExist = await UserModel.findById(req.params.id);
-
-    if (!userExist) {
-      throw new Error("User not found");
+    if (userUsernameExist && userOwn.username != body.username) {
+      throw new Error("Username already exist");
     }
 
-    const result = await UserModel.findByIdAndUpdate(userExist.id, { $set: { ...body, password: passwordHash } });
+    if (userEmailExist && userOwn.email != body.email) {
+      throw new Error("Email already exist");
+    }
+
+    const passwordHash = await hashPassword(body.password);
+    const isComparePassword = userOwn.password == body.password;
+
+    const result = await UserModel.findByIdAndUpdate(req.params.id, {
+      $set: { ...body, password: isComparePassword ? userOwn.password : passwordHash },
+    });
 
     if (!result) {
       throw new Error("User not found");
