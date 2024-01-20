@@ -6,8 +6,6 @@ export const getProducts = async (req: Request, res: Response) => {
   try {
     const products = await ProductModel.find().populate("category", "title");
 
-    console.log(products);
-
     return res.status(200).json({
       data: products,
     });
