@@ -74,7 +74,13 @@ export const updateUserById = async (req: Request, res: Response) => {
 
     const passwordHash = await hashPassword(body.password);
 
-    const result = await UserModel.findByIdAndUpdate(req.params.id, { $set: { ...body, password: passwordHash } });
+    const userExist = await UserModel.findById(req.params.id);
+
+    if (!userExist) {
+      throw new Error("User not found");
+    }
+
+    const result = await UserModel.findByIdAndUpdate(userExist.id, { $set: { ...body, password: passwordHash } });
 
     if (!result) {
       throw new Error("User not found");
