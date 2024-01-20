@@ -106,14 +106,14 @@ export default {
   user(id: string) {
     return ApiOne.get(`/users/${id}`);
   },
-  createUser(id: string, data: z.infer<typeof CreateUserSchema>) {
-    return ApiOne.post(`/users/${id}`, {
-      data,
+  createUser(data: z.infer<typeof CreateUserSchema>) {
+    return ApiOne.post(`/users`, {
+      ...data,
     });
   },
   updateUser(id: string, data: z.infer<typeof CreateUserSchema>) {
     return ApiOne.put(`/users/${id}`, {
-      data,
+      ...data,
     });
   },
   deleteUser(id: string) {

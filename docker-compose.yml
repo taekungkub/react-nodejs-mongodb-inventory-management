@@ -25,10 +25,12 @@ services:
     depends_on:
       - backend
   mongodb:
-    image: mongo:latest
+    image: mongo
     ports:
       - "27018:27017"
     volumes:
       - ./data:/data/db
     environment:
       TZ: Asia/Bangkok
+volumes:
+  data:

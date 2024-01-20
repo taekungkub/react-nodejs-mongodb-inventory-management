@@ -24,18 +24,14 @@ export default function useUser() {
 
   const useAddUser = () =>
     useMutation({
-      mutationFn: async ({
-        id,
-        data,
-      }: {
-        id: string;
-        data: z.infer<typeof CreateUserSchema>;
-      }) => await BackendServices.createUser(id, data),
+      mutationFn: async (data: z.infer<typeof CreateUserSchema>) =>
+        await BackendServices.createUser(data),
       onSuccess: (res) => {
         queryClient.invalidateQueries({ queryKey: ["users"] });
         toast.success({ msg: "Create user successfully" });
       },
       onError(error: any) {
+        console.log(error);
         toast.error({
           msg: error.description ? error.description : "Something went wrong",
         });

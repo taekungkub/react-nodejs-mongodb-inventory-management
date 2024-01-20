@@ -3,7 +3,7 @@ import * as dotenv from "dotenv";
 
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 
-const MongoURI = process.env.MONGODB_URI || "mongodb://localhost:27018/my-db";
+const MongoURI = process.env.MONGODB_URI || "mongodb://rootuser:rootpass@localhost:27018/my-db";
 
 mongoose.set("strictQuery", false);
 mongoose.Promise = Promise;

@@ -19,7 +19,7 @@ export function StatsGridStock({ data }: Props) {
     const Icon = icons[i];
     const color = colors[i];
     return (
-      <Paper withBorder p="md" radius="md" mt={"md"} key={stat.title}>
+      <Paper shadow="sm" withBorder p="md" radius="md" mt={"md"} key={stat.title}>
         <Group>
           <Text size="lg" fw={"bold"}>
             {stat.value}
@@ -27,7 +27,7 @@ export function StatsGridStock({ data }: Props) {
         </Group>
         <Group justify="space-between" gap="xs" mt={25}>
           <Text size="sm">{stat.title}</Text>
-          <Icon color={color} size="1.4rem" stroke={1.5} />
+          <Icon color={color} size="1.725rem" stroke={1.5} />
         </Group>
       </Paper>
     );

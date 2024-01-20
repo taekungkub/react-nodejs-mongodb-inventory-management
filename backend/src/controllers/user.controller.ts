@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
 import { UserModel } from "../model/user.model";
 import { CreateUserSchema } from "../validation/user.schema";
+import { hashPassword } from "@/helper/utils";
 
 export const getUsers = async (req: Request, res: Response) => {
   try {
-    const users = await UserModel.find();
+    const users = await UserModel.find().select("+password");
     return res.status(200).json({
       status: "success",
       data: users,
@@ -26,8 +27,19 @@ export const createUser = async (req: Request, res: Response) => {
 
     const body = validatedFields.data.body;
 
+    const usernameExist = await UserModel.findOne({
+      username: body.username,
+    });
+
+    if (usernameExist) {
+      throw new Error("Email or Username already exist");
+    }
+
+    const passwordHash = await hashPassword(body.password);
+
     const newUser = await new UserModel({
       ...body,
+      password: passwordHash,
     })
       .save()
       .then((user) => user.toObject());
@@ -60,7 +72,9 @@ export const updateUserById = async (req: Request, res: Response) => {
 
     const body = validatedFields.data.body;
 
-    const result = await UserModel.findByIdAndUpdate(req.params.id, { $set: { ...body } });
+    const passwordHash = await hashPassword(body.password);
+
+    const result = await UserModel.findByIdAndUpdate(req.params.id, { $set: { ...body, password: passwordHash } });
 
     if (!result) {
       throw new Error("User not found");
