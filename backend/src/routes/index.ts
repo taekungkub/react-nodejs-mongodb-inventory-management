@@ -4,6 +4,7 @@ import authRoute from "./auth.route";
 import productRoute from "./product.route";
 import orderRoute from "./order.route";
 import dashboardRoute from "./dashboard.route";
+import categoryRoute from "./category.route";
 
 const router = Router();
 
@@ -18,5 +19,6 @@ router.use(authRoute);
 router.use(productRoute);
 router.use(orderRoute);
 router.use(dashboardRoute);
+router.use(categoryRoute);
 
 export default router;

@@ -12,4 +12,14 @@ export const ProductSchema = z.object({
     message: "Price is required",
   }),
   status: z.optional(z.boolean()),
+  category: z.string(),
+});
+
+export const CategorySchema = z.object({
+  body: z.object({
+    title: z.string().min(1, {
+      message: "Title is required",
+    }),
+    description: z.string().optional(),
+  }),
 });

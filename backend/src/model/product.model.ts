@@ -8,6 +8,7 @@ const ProductSchema = new mongoose.Schema<ProductTy>(
     stock: { type: Number, required: true },
     price: { type: Number, required: true },
     status: { type: Boolean },
+    category: { type: mongoose.Schema.Types.ObjectId, ref: "Category", required: true },
   },
 
   { collection: "product", timestamps: true }

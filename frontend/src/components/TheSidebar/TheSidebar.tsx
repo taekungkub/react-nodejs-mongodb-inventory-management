@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { IconBox, IconShoppingCart, IconBook, IconDashboard } from "@tabler/icons-react"
+import { IconBox, IconShoppingCart, IconBook, IconDashboard, IconUsersGroup, IconBrandProducthunt, IconBoxAlignBottom, IconShoppingCartPlus } from "@tabler/icons-react"
 import classes from "./TheSidebar.module.css"
 import { ScrollArea, rem } from "@mantine/core"
 import { useLocation, useNavigate } from "react-router-dom"
@@ -10,6 +10,8 @@ const data = [
   { label: "Shop", icon: IconShoppingCart, path: "/shop" },
   { label: "Stock", icon: IconBox, path: "/stock" },
   { label: "Order", icon: IconBook, path: "/order" },
+  { label: "Category", icon: IconShoppingCartPlus, path: "/category" },
+
 ]
 
 export function TheSidebar() {
@@ -17,7 +19,6 @@ export function TheSidebar() {
   const location = useLocation()
   const navigation = useNavigate()
 
-  const { logout } = useAuth()
 
   const links = data.map((item) => (
     <a

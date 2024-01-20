@@ -83,6 +83,7 @@ export default function TableProduct({ data, onEdit, onAdd, onDelete }: Props) {
           { title: "Title", accessor: "title", sortable: true },
           { title: "Description", accessor: "description", width: 200 },
           { title: "Price", accessor: "price", sortable: true },
+          { title: "Category", accessor: "category.title", sortable: true },
 
           { title: "Stock", accessor: "stock", sortable: true },
           {

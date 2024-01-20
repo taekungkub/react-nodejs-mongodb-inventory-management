@@ -6,6 +6,7 @@ import ModalFormProduct from "../../components/ModalFormProduct";
 import { ProductTy } from "../../types/product.type";
 import { StatsGridStock } from "../../components/StatsGridStock/StatsGridStock";
 import useDashboard from "../../hooks/use-dashboard";
+import useCategory from "../../hooks/use-category";
 
 type FormType = "ADD" | "EDIT";
 
@@ -16,6 +17,9 @@ export default function StockPage() {
   const { useProductQuery, useDeleteProduct } = useProduct();
   const { products } = useProductQuery();
   const onDeleteProductMutation = useDeleteProduct();
+  const {useCategoryQuery} =useCategory();
+
+  const categoryQuery = useCategoryQuery()
 
   function handleAdd() {
     setType("ADD");
@@ -48,6 +52,7 @@ export default function StockPage() {
         close={close}
         inititialForm={selected}
         type={type}
+        categories={ categoryQuery.data || []}
       />
     </div>
   );

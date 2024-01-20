@@ -1,9 +1,9 @@
 import { z } from "zod";
 import { UserTy } from "../types/user.type";
 import ApiOne from "./Api";
-import { ProductSchema } from "../validation/product.schema";
+import { CategorySchema, ProductSchema } from "../validation/product.schema";
 import { RegisterSchema } from "../validation/auth.schema";
-import { ProductTy } from "../types/product.type";
+import { CategoryTy, ProductTy } from "../types/product.type";
 import { CreateOrderSchema } from "../validation/order.schema";
 import { OrderTy } from "../types/order.type";
 import { DashboardStockTy, DashboardTy } from "../types/dashboard.type";
@@ -78,5 +78,25 @@ export default {
     return ApiOne.get<{
       data: DashboardStockTy[];
     }>("/dashboard/stock");
+  },
+  category() {
+    return ApiOne.get<{
+      data: CategoryTy[];
+    }>("/category");
+  },
+  createCategory(data: z.infer<typeof CategorySchema>) {
+    return ApiOne.post<{
+      data: "";
+    }>("/category", {
+      ...data,
+    });
+  },
+  updateCategory(id: string, data: z.infer<typeof CategorySchema>) {
+    return ApiOne.put(`/category/${id}`, {
+      ...data,
+    });
+  },
+  deleteCategory(id: string) {
+    return ApiOne.delete(`/category/${id}`);
   },
 };

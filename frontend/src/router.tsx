@@ -11,6 +11,7 @@ import ShopPage from "./views/Shop/index.tsx"
 import StockPage from "./views/Product/index.tsx"
 import OrderPage from "./views/Order/index.tsx"
 import DashboardPage from "./views/Dashboard/index.tsx"
+import CategoryPage from "./views/Category/index.tsx"
 
 const router = createBrowserRouter([
   {
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
               {
                 path: "/order",
                 element: <OrderPage />,
+              },
+              {
+                path: "/category",
+                element: <CategoryPage />,
               },
             ],
           },

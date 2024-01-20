@@ -1,7 +1,7 @@
-import { TextInput, Button, Stack, Modal, Switch } from "@mantine/core";
+import { TextInput, Button, Stack, Modal, Switch, Select } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
 import { ProductSchema } from "../validation/product.schema";
-import { ProductTy } from "../types/product.type";
+import { CategoryTy, ProductTy } from "../types/product.type";
 import { useEffect, useState } from "react";
 import useProduct from "../hooks/use-product";
 
@@ -10,6 +10,7 @@ type Props = {
   inititialForm?: ProductTy;
   type: "ADD" | "EDIT";
   close: () => void;
+  categories: CategoryTy[]
 };
 
 export default function ModalForm({
@@ -17,6 +18,7 @@ export default function ModalForm({
   close,
   inititialForm,
   type,
+  categories
 }: Props) {
   const { useAddProduct, useEditProduct } = useProduct();
 
@@ -30,6 +32,7 @@ export default function ModalForm({
       stock: "",
       price: "",
       status: false,
+      category:''
     },
     validate: zodResolver(ProductSchema),
   });
@@ -41,6 +44,7 @@ export default function ModalForm({
       if (inititialForm) {
         form.setValues({
           ...inititialForm,
+          category:inititialForm.category?._id
         })
       }
     }
@@ -100,6 +104,19 @@ export default function ModalForm({
               {...form.getInputProps("price")}
               radius="md"
             />
+                  <Select 
+                  
+                  label='Category'
+                  data={categories.length ? categories.map((v)=> {
+                    return {
+                      value:v._id || '',
+                      label:v.title || ''
+                    }
+                  }) : []}
+                  {...form.getInputProps('category')}
+
+          />
+          
             <Switch {...form.getInputProps('status', { type: 'checkbox' })}  label="Status" />
           </Stack>
           <Button

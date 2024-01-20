@@ -13,7 +13,17 @@ export const ProductSchema = z.object({
       message: "Price is required",
     }),
     status: z.optional(z.boolean()),
+    category: z.coerce.string().min(1, {
+      message: "Category is required",
+    }),
   }),
 });
 
-export type ProductSchemaBody = z.infer<typeof ProductSchema>["body"];
+export const CategorySchema = z.object({
+  body: z.object({
+    title: z.string().min(1, {
+      message: "Title is required",
+    }),
+    description: z.string().optional(),
+  }),
+});
