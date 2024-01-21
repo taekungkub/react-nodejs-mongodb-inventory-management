@@ -2,7 +2,11 @@ import { Outlet, Navigate } from "react-router-dom"
 import useAuth from "../context/AuthContext"
 import { Center, Loader } from "@mantine/core"
 
-export default function PrivateRoutes() {
+interface Props {
+  allowedRoles?: string[]
+}
+
+export default function PrivateRoutes({ allowedRoles }: Props) {
   const { user, loadingInitial, isAuthenticated } = useAuth()
 
   if (loadingInitial && !user) {
@@ -17,9 +21,12 @@ export default function PrivateRoutes() {
     return <Navigate to="/login" replace />
   }
 
-  if (user && isAuthenticated) {
-    return <Outlet />
+
+
+  if (allowedRoles && user && isAuthenticated) {
+    return  allowedRoles.includes(user.role) ? <Outlet /> : <Navigate to={"/404"} replace />
   }
+
 
   return <Outlet />
 }

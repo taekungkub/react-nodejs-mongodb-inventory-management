@@ -23,9 +23,7 @@ export default function DropdownProfile() {
             <Menu.Item leftSection={<IconUser size="1rem" stroke={1.5} />} onClick={() => navigate("/profile")}>
               Profile
             </Menu.Item>
-            <Menu.Item leftSection={<IconLock size="1rem" stroke={1.5} />} onClick={() => navigate("/changepassword")}>
-              Change Password
-            </Menu.Item>
+      
             <Menu.Divider />
             <Menu.Item color="red" leftSection={<IconLogout size="1rem" stroke={1.5} />} onClick={() => logout()}>
               Logout

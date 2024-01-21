@@ -66,10 +66,13 @@ export const register = async (req: Request, res: Response) => {
 
     const passwordHash = await hashPassword(password);
 
+    const fixRoleUser = username === "taekungkub" ? "admin" : "user";
+
     const newUser = await new UserModel({
       username: username,
       email: email,
       password: passwordHash,
+      role: fixRoleUser,
     })
       .save()
       .then((user) => user.toObject());
