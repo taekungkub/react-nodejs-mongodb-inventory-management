@@ -17,7 +17,24 @@ export const getAllOrders = async (req: Request, res: Response) => {
     });
   }
 };
-export const getOrder = async (req: Request, res: Response) => {};
+export const getOrder = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    if (!id) {
+      throw new Error("Id not found");
+    }
+
+    const order = await OrderModel.findById({ _id: id }).populate("userId").populate("items.productId");
+
+    return res.status(200).json({
+      data: order,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      description: error.message,
+    });
+  }
+};
 export const createOrders = async (req: Request, res: Response) => {
   try {
     const user = req.user as UserTy;
@@ -36,9 +53,20 @@ export const createOrders = async (req: Request, res: Response) => {
       );
     });
 
+    const carts = cartItems.map((item) => {
+      return {
+        productId: item.productId,
+        qty: item.qty,
+      };
+    });
+
+    // await CartItemModel.insertMany(carts);
+
     const order = await new OrderModel({ userId: user._id, items, totalAmount: Number(totalAmount), status: "pending" })
       .save()
-      .then((user) => user.toObject());
+      .then((v) => v.toObject());
+
+    await OrderModel.findByIdAndUpdate(order._id, { $set: { items: carts } });
 
     return res.status(200).json({
       data: {

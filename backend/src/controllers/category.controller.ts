@@ -36,7 +36,7 @@ export const createCategory = async (req: Request, res: Response) => {
       status: "success",
       description: "Successfully created the category",
       data: {
-        ...newCategory,
+        id: newCategory._id,
       },
     });
   } catch (error) {

@@ -5,6 +5,7 @@ import sortBy from "lodash/sortBy"
 import { IconChevronUp, IconEdit, IconEye, IconSelector, IconTrash } from "@tabler/icons-react"
 import dayjs from "dayjs"
 import { OrderTy } from "../types/order.type"
+import { useNavigate } from "react-router-dom"
 
 interface Props {
   data: Array<OrderTy>
@@ -16,6 +17,8 @@ const PAGE_SIZES = [10, 15, 20]
 export default function TableOrder({ data, onEdit }: Props) {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(PAGE_SIZES[1])
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     setPage(1)
@@ -90,7 +93,7 @@ export default function TableOrder({ data, onEdit }: Props) {
             textAlign: "center",
             render: (order) => (
               <Group gap={4} justify="center" wrap="nowrap">
-                <ActionIcon size="sm" variant="subtle" color="green">
+                <ActionIcon size="sm" variant="subtle" color="green" onClick={() => navigate("/order/" + order._id)}>
                   <IconEye size={16} />
                 </ActionIcon>
 
