@@ -57,7 +57,7 @@ export default function TableOrder({ data, onEdit }: Props) {
             textAlign: "center",
             sortable: true,
           },
-          { title: "User", accessor: "username.username", sortable: true, render: ({ userId }: OrderTy) => <>{userId.username}</> },
+          { title: "User", accessor: "userId.username", sortable: true },
           {
             title: "Total Amount",
             accessor: "totalAmount",
