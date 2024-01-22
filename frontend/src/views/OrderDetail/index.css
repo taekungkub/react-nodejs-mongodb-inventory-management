@@ -39,3 +39,9 @@ table {
 .border-0 {
   border: 0 !important;
 }
+
+@media print {
+  .hide-on-print {
+    display: none;
+  }
+}
