@@ -21,7 +21,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Navigate to="/profile" replace={true} />,
+        element: <Navigate to="/dashboard" replace={true} />,
       },
       {
         element: <UnAuthRoutes />,

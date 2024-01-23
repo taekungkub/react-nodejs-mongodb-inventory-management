@@ -22,8 +22,8 @@ export default function ModalFormOrder({ opened, inititialForm, close }: Props) 
   const updateOrderStatusMutation = useUpdateOrderStatus()
 
   useEffect(() => {
-    setValue(String(inititialForm?.status || "pending"))
-  }, [inititialForm?.status])
+    setValue(String(inititialForm?.status))
+  }, [opened])
 
   return (
     <Modal opened={opened} onClose={close} title="Edit">
