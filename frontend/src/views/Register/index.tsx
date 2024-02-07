@@ -12,10 +12,10 @@ export default function RegisterPage(props: PaperProps) {
 
   const form = useForm({
     initialValues: {
-      username: "",
-      email: "",
-      password: "",
-      confirm_password: "",
+      username: "taekungkub",
+      email: "tae@gmail.com",
+      password: "123456",
+      confirm_password: "123456",
     },
 
     validate: zodResolver(RegisterSchema),

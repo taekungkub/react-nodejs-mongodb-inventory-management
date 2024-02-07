@@ -121,7 +121,7 @@ export function AuthProvider(): JSX.Element {
       loadingInitial,
       isAuthenticated,
     }),
-    [token, user, loadingInitial, isAuthenticated]
+    [token, user, loadingInitial, loadingSubmit, isAuthenticated]
   )
 
   return (
