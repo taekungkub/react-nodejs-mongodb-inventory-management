@@ -9,8 +9,8 @@ import { OrderTy } from "../../types/order.type"
 type Props = {}
 
 export default function OrderPage({}: Props) {
-  const { useOrderQuery } = useOrder()
-  const { data } = useOrderQuery()
+  const { useOrdersQuery } = useOrder()
+  const { data } = useOrdersQuery()
   const [opened, { open, close }] = useDisclosure(false)
   const [selected, setSelected] = useState<OrderTy | undefined>(undefined)
 

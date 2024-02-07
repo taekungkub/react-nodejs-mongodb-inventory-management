@@ -1,18 +1,19 @@
-import { createBrowserRouter, Navigate } from "react-router-dom";
-import LoginPage from "./views/Login/index.tsx";
-import RegisterPage from "./views/Register/index.tsx";
-import DashboardLayout from "./layouts/DashboardLayout.tsx";
-import ProfilePage from "./views/Profile/index.tsx";
-import { AuthProvider } from "./context/AuthContext.tsx";
-import PrivateRoutes from "./middleware/PrivateRoutes.tsx";
-import UnAuthRoutes from "./middleware/UnAuthRoutes.tsx";
-import NotFoundPage from "./views/404/index.tsx";
-import ShopPage from "./views/Shop/index.tsx";
-import StockPage from "./views/Stock/index.tsx";
-import OrderPage from "./views/Order/index.tsx";
-import DashboardPage from "./views/Dashboard/index.tsx";
-import CategoryPage from "./views/Category/index.tsx";
-import UserPage from "./views/User/index.tsx";
+import { createBrowserRouter, Navigate } from "react-router-dom"
+import LoginPage from "./views/Login/index.tsx"
+import RegisterPage from "./views/Register/index.tsx"
+import DashboardLayout from "./layouts/DashboardLayout.tsx"
+import ProfilePage from "./views/Profile/index.tsx"
+import { AuthProvider } from "./context/AuthContext.tsx"
+import PrivateRoutes from "./middleware/PrivateRoutes.tsx"
+import UnAuthRoutes from "./middleware/UnAuthRoutes.tsx"
+import NotFoundPage from "./views/404/index.tsx"
+import ShopPage from "./views/Shop/index.tsx"
+import StockPage from "./views/Stock/index.tsx"
+import OrderPage from "./views/Order/index.tsx"
+import DashboardPage from "./views/Dashboard/index.tsx"
+import CategoryPage from "./views/Category/index.tsx"
+import UserPage from "./views/User/index.tsx"
+import OrderDetailPage from "./views/OrderDetail/index.tsx"
 
 const router = createBrowserRouter([
   {
@@ -20,7 +21,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Navigate to="/profile" replace={true} />,
+        element: <Navigate to="/dashboard" replace={true} />,
       },
       {
         element: <UnAuthRoutes />,
@@ -62,11 +63,15 @@ const router = createBrowserRouter([
                 element: <OrderPage />,
               },
               {
+                path: "/order/:id",
+                element: <OrderDetailPage />,
+              },
+              {
                 path: "/category",
                 element: <CategoryPage />,
               },
               {
-                element: <PrivateRoutes allowedRoles={["admin" , 'user']} />,
+                element: <PrivateRoutes allowedRoles={["admin", "user"]} />,
                 children: [
                   {
                     path: "/user",
@@ -88,6 +93,6 @@ const router = createBrowserRouter([
     path: "/404",
     element: <NotFoundPage />,
   },
-]);
+])
 
-export default router;
+export default router

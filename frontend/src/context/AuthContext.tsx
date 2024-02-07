@@ -95,7 +95,7 @@ export function AuthProvider(): JSX.Element {
       localStorage.setItem("token", JSON.stringify(res.data.data))
       setToken(res.data.data.access_token)
       setIsAuthenticated(true)
-      navigate("/profile")
+      navigate("/dashboard")
     } catch (error: any) {
       toast.error({ msg: error.description ? error.description : "Something went wrong" })
     } finally {

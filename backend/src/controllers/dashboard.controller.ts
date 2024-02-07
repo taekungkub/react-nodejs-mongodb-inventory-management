@@ -9,6 +9,10 @@ export const getDashboard = async (req: Request, res: Response) => {
     const users = await UserModel.find();
     const products = await ProductModel.find();
 
+    const orderDeliverly = await OrderModel.find({ status: "delivered" });
+
+    const totalPrice = orderDeliverly.reduce((acc, v) => acc + v.totalAmount, 0);
+
     return res.status(200).json({
       data: [
         {
@@ -22,6 +26,10 @@ export const getDashboard = async (req: Request, res: Response) => {
         {
           title: "Product",
           value: products.length,
+        },
+        {
+          title: "Total",
+          value: "$" + totalPrice,
         },
       ],
     });
